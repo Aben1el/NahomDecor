@@ -14,6 +14,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
+    <!-- Three.js for 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -22,11 +25,16 @@
     <!-- Loading Screen -->
     <div id="loader" class="loader-container">
         <div class="loader-content">
-            <svg class="loader-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 10 C30 10, 15 30, 15 50 C15 75, 35 90, 50 90 C65 90, 85 75, 85 50 C85 30, 70 10, 50 10 Z" stroke="#183D2B" stroke-width="3" fill="none"/>
-                <path d="M50 25 C40 25, 32 35, 32 45 C32 58, 42 65, 50 65 C58 65, 68 58, 68 45 C68 35, 60 25, 50 25 Z" fill="#536B42" opacity="0.6"/>
-            </svg>
-            <p class="loader-text">Loading Elegance...</p>
+            <div class="loader-logo-wrapper">
+                <svg class="loader-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 10 C30 10, 15 30, 15 50 C15 75, 35 90, 50 90 C65 90, 85 75, 85 50 C85 30, 70 10, 50 10 Z" stroke="#183D2B" stroke-width="3" fill="none" class="loader-ring"/>
+                    <path d="M50 25 C40 25, 32 35, 32 45 C32 58, 42 65, 50 65 C58 65, 68 58, 68 45 C68 35, 60 25, 50 25 Z" fill="#536B42" opacity="0.8" class="loader-inner"/>
+                </svg>
+            </div>
+            <p class="loader-text">Crafting Elegance</p>
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
+            </div>
         </div>
     </div>
 
@@ -49,9 +57,9 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with 3D -->
     <section id="home" class="hero">
-        <div class="hero-bg"></div>
+        <canvas id="three-canvas" class="three-canvas"></canvas>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1 class="hero-title fade-in-up">We Decorate Your Occasions</h1>
@@ -71,7 +79,7 @@
         <div class="container">
             <div class="about-grid">
                 <div class="about-image reveal">
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000&auto=format&fit=crop" alt="Elegant wedding table decoration" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Elegant wedding table decoration" loading="lazy">
                     <div class="image-frame"></div>
                 </div>
                 <div class="about-content reveal delay-1">
@@ -95,7 +103,7 @@
             <div class="services-grid">
                 <div class="service-card reveal delay-1" data-tilt>
                     <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop" alt="Wedding Decoration" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Wedding Decoration" loading="lazy">
                     </div>
                     <div class="service-content">
                         <h3>Weddings</h3>
@@ -104,7 +112,7 @@
                 </div>
                 <div class="service-card reveal delay-2" data-tilt>
                     <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=800&auto=format&fit=crop" alt="Birthday Celebration" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Birthday Celebration" loading="lazy">
                     </div>
                     <div class="service-content">
                         <h3>Birthdays & Anniversaries</h3>
@@ -113,7 +121,7 @@
                 </div>
                 <div class="service-card reveal delay-3" data-tilt>
                     <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=800&auto=format&fit=crop" alt="Graduation Ceremony" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Graduation Ceremony" loading="lazy">
                     </div>
                     <div class="service-content">
                         <h3>Graduations & Private Events</h3>
@@ -133,27 +141,27 @@
             </div>
             <div class="gallery-grid">
                 <div class="gallery-item reveal" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop" alt="Luxury floral arrangement" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Luxury floral arrangement" loading="lazy">
                     <div class="gallery-overlay"><span>View</span></div>
                 </div>
                 <div class="gallery-item reveal delay-1" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1507504031981-723e9edd3e66?q=80&w=800&auto=format&fit=crop" alt="Elegant table setting" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1507504031981-723e9edd3e66?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Elegant table setting" loading="lazy">
                     <div class="gallery-overlay"><span>View</span></div>
                 </div>
                 <div class="gallery-item reveal delay-2" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop" alt="Wedding arch decoration" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Wedding arch decoration" loading="lazy">
                     <div class="gallery-overlay"><span>View</span></div>
                 </div>
                 <div class="gallery-item reveal" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" alt="Event lighting design" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Event lighting design" loading="lazy">
                     <div class="gallery-overlay"><span>View</span></div>
                 </div>
                 <div class="gallery-item reveal delay-1" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1478146059778-26028b07395a?q=80&w=800&auto=format&fit=crop" alt="Outdoor event decor" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1478146059778-26028b07395a?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Outdoor event decor" loading="lazy">
                     <div class="gallery-overlay"><span>View</span></div>
                 </div>
                 <div class="gallery-item reveal delay-2" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1505932794465-14a519b011d4?q=80&w=800&auto=format&fit=crop" alt="Intimate celebration setup" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1505932794465-14a519b011d4?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Intimate celebration setup" loading="lazy">
                     <div class="gallery-overlay"><span>View</span></div>
                 </div>
             </div>
