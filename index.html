@@ -25,11 +25,16 @@
     <!-- Loading Screen -->
     <div id="loader" class="loader-container">
         <div class="loader-content">
-            <div class="loader-logo-wrapper">
-                <svg class="loader-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 10 C30 10, 15 30, 15 50 C15 75, 35 90, 50 90 C65 90, 85 75, 85 50 C85 30, 70 10, 50 10 Z" stroke="#183D2B" stroke-width="3" fill="none" class="loader-ring"/>
-                    <path d="M50 25 C40 25, 32 35, 32 45 C32 58, 42 65, 50 65 C58 65, 68 58, 68 45 C68 35, 60 25, 50 25 Z" fill="#536B42" opacity="0.8" class="loader-inner"/>
-                </svg>
+            <div class="loader-3d-object">
+                <div class="loader-flower">
+                    <div class="petal petal-1"></div>
+                    <div class="petal petal-2"></div>
+                    <div class="petal petal-3"></div>
+                    <div class="petal petal-4"></div>
+                    <div class="petal petal-5"></div>
+                    <div class="petal petal-6"></div>
+                    <div class="flower-center"></div>
+                </div>
             </div>
             <p class="loader-text">Crafting Elegance</p>
             <div class="loader-progress">
@@ -40,6 +45,11 @@
 
     <!-- 3D Canvas (Fixed Left Side) -->
     <canvas id="three-canvas" class="three-canvas"></canvas>
+    
+    <!-- Fallback message if WebGL not supported -->
+    <div id="webgl-fallback" class="webgl-fallback" style="display: none;">
+        <p>3D experience requires WebGL support</p>
+    </div>
 
     <!-- Navigation -->
     <nav id="navbar" class="navbar">
