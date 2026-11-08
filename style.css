@@ -36,7 +36,7 @@ body {
 }
 
 /* =========================================
-   2. Loading Screen
+   2. Loading Screen (Redesigned)
    ========================================= */
 .loader-container {
     position: fixed;
@@ -44,12 +44,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--soft-cream);
+    background: linear-gradient(135deg, var(--soft-cream) 0%, var(--warm-white) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.6s ease, visibility 0.6s ease;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
 .loader-container.hidden {
@@ -60,31 +60,70 @@ body {
 
 .loader-content {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.loader-logo-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
 }
 
 .loader-logo {
-    width: 60px;
-    height: 60px;
-    animation: pulse 2s infinite ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+
+.loader-ring {
+    animation: rotateRing 3s linear infinite;
+    transform-origin: center;
+}
+
+.loader-inner {
+    animation: pulseInner 2s ease-in-out infinite;
+}
+
+@keyframes rotateRing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseInner {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
 }
 
 .loader-text {
-    margin-top: 1rem;
     font-family: var(--font-heading);
     color: var(--deep-forest);
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    animation: fadeInOut 2s infinite;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    font-weight: 400;
+    opacity: 0.8;
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.8; }
+.loader-progress {
+    width: 120px;
+    height: 2px;
+    background: rgba(24, 61, 43, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
 }
 
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+.loader-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--deep-forest), var(--olive-green));
+    width: 0%;
+    animation: loadProgress 2s ease-in-out forwards;
+}
+
+@keyframes loadProgress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
 }
 
 /* =========================================
@@ -278,7 +317,7 @@ h1, h2, h3 {
 }
 
 /* =========================================
-   6. Hero Section
+   6. Hero Section with 3D Canvas
    ========================================= */
 .hero {
     position: relative;
@@ -289,23 +328,16 @@ h1, h2, h3 {
     justify-content: center;
     text-align: center;
     overflow: hidden;
+    background: linear-gradient(135deg, var(--deep-forest) 0%, var(--olive-green) 50%, var(--earthy-brown) 100%);
 }
 
-.hero-bg {
+.three-canvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
-    z-index: -2;
-    transform: scale(1.05);
-    animation: slowZoom 20s infinite alternate;
-}
-
-@keyframes slowZoom {
-    from { transform: scale(1.05); }
-    to { transform: scale(1.15); }
+    z-index: 1;
 }
 
 .hero-overlay {
@@ -314,18 +346,14 @@ h1, h2, h3 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(24, 61, 43, 0.4) 0%,
-        rgba(24, 61, 43, 0.2) 50%,
-        rgba(24, 61, 43, 0.6) 100%
-    );
-    z-index: -1;
+    background: radial-gradient(ellipse at center, rgba(24, 61, 43, 0.2) 0%, rgba(24, 61, 43, 0.4) 100%);
+    z-index: 2;
+    pointer-events: none;
 }
 
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 3;
     max-width: 800px;
     padding: 0 2rem;
 }
@@ -334,7 +362,7 @@ h1, h2, h3 {
     font-size: 4rem;
     color: var(--warm-white);
     margin-bottom: 1.5rem;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .hero-subtitle {
@@ -369,6 +397,7 @@ h1, h2, h3 {
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 3;
     animation: bounce 2s infinite;
 }
 
@@ -409,7 +438,7 @@ h1, h2, h3 {
    7. About Section
    ========================================= */
 .about-section {
-    background-color: var(--soft-cream);
+    background: linear-gradient(180deg, var(--soft-cream) 0%, var(--warm-white) 100%);
 }
 
 .about-grid {
@@ -520,7 +549,7 @@ h1, h2, h3 {
    9. Gallery Section
    ========================================= */
 .gallery-section {
-    background-color: var(--soft-cream);
+    background: linear-gradient(180deg, var(--warm-white) 0%, var(--soft-cream) 100%);
 }
 
 .gallery-grid {
@@ -872,5 +901,18 @@ h1, h2, h3 {
     
     .gallery-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   15. Accessibility - Reduced Motion
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
