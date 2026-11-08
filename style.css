@@ -30,7 +30,6 @@ html {
 
 body {
     font-family: var(--font-body);
-    /* Luxurious atmospheric background */
     background: linear-gradient(160deg, var(--deep-forest) 0%, #1F4D36 40%, var(--earthy-brown) 100%);
     background-attachment: fixed;
     color: var(--deep-forest);
@@ -39,7 +38,6 @@ body {
     min-height: 100vh;
 }
 
-/* Subtle animated background texture */
 body::before {
     content: '';
     position: fixed;
@@ -55,7 +53,7 @@ body::before {
 }
 
 /* =========================================
-   2. Loading Screen
+   2. LOADING SCREEN - MOTION BASED
    ========================================= */
 .loader-container {
     position: fixed;
@@ -67,8 +65,8 @@ body::before {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
+    z-index: 10000;
+    transition: opacity 1s ease, visibility 1s ease;
 }
 
 .loader-container.hidden {
@@ -82,71 +80,133 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
-.loader-logo-wrapper {
+/* 3D Animated Flower Object */
+.loader-3d-object {
+    width: 120px;
+    height: 120px;
     position: relative;
-    width: 80px;
-    height: 80px;
+    perspective: 1000px;
 }
 
-.loader-logo {
+.loader-flower {
     width: 100%;
     height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: flowerRotate 4s ease-in-out infinite;
 }
 
-.loader-ring {
-    animation: rotateRing 3s linear infinite;
-    transform-origin: center;
+.petal {
+    position: absolute;
+    width: 40px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--olive-green) 0%, var(--deep-forest) 100%);
+    border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+    left: 50%;
+    top: 50%;
+    transform-origin: center bottom;
+    box-shadow: 0 4px 8px rgba(24, 61, 43, 0.3);
+    animation: petalBloom 2s ease-out forwards;
+    opacity: 0;
 }
 
-.loader-inner {
-    animation: pulseInner 2s ease-in-out infinite;
+.petal-1 { transform: translate(-50%, -50%) rotate(0deg) translateY(-30px); animation-delay: 0.1s; }
+.petal-2 { transform: translate(-50%, -50%) rotate(60deg) translateY(-30px); animation-delay: 0.2s; }
+.petal-3 { transform: translate(-50%, -50%) rotate(120deg) translateY(-30px); animation-delay: 0.3s; }
+.petal-4 { transform: translate(-50%, -50%) rotate(180deg) translateY(-30px); animation-delay: 0.4s; }
+.petal-5 { transform: translate(-50%, -50%) rotate(240deg) translateY(-30px); animation-delay: 0.5s; }
+.petal-6 { transform: translate(-50%, -50%) rotate(300deg) translateY(-30px); animation-delay: 0.6s; }
+
+.flower-center {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, var(--gold-accent) 0%, var(--warm-mocha) 100%);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+    animation: centerPulse 2s ease-in-out infinite;
 }
 
-@keyframes rotateRing {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@keyframes flowerRotate {
+    0%, 100% { transform: rotateY(0deg) rotateX(10deg); }
+    50% { transform: rotateY(180deg) rotateX(10deg); }
 }
 
-@keyframes pulseInner {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
+@keyframes petalBloom {
+    0% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--rotation, 0deg)) translateY(-10px) scale(0.5);
+    }
+    100% { 
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(var(--rotation, 0deg)) translateY(-30px) scale(1);
+    }
+}
+
+@keyframes centerPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+    50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 30px rgba(212, 175, 55, 0.9); }
 }
 
 .loader-text {
     font-family: var(--font-heading);
     color: var(--deep-forest);
-    font-size: 1.2rem;
-    letter-spacing: 3px;
+    font-size: 1.3rem;
+    letter-spacing: 4px;
     font-weight: 400;
-    opacity: 0.8;
+    opacity: 0;
+    animation: fadeInText 1s ease forwards 0.8s;
+}
+
+@keyframes fadeInText {
+    to { opacity: 0.8; }
 }
 
 .loader-progress {
-    width: 120px;
-    height: 2px;
+    width: 150px;
+    height: 3px;
     background: rgba(24, 61, 43, 0.1);
-    border-radius: 2px;
+    border-radius: 3px;
     overflow: hidden;
+    opacity: 0;
+    animation: fadeInText 1s ease forwards 1s;
 }
 
 .loader-progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--deep-forest), var(--olive-green));
+    background: linear-gradient(90deg, var(--deep-forest), var(--olive-green), var(--gold-accent));
+    background-size: 200% 100%;
     width: 0%;
     animation: loadProgress 2s ease-in-out forwards;
 }
 
 @keyframes loadProgress {
     0% { width: 0%; }
-    50% { width: 70%; }
-    100% { width: 100%; }
+    50% { width: 70%; background-position: 0% 0%; }
+    100% { width: 100%; background-position: 100% 0%; }
+}
+
+.webgl-fallback {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--soft-cream);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-3d);
+    z-index: 100;
+    text-align: center;
 }
 
 /* =========================================
-   3. 3D Canvas Positioning (LEFT SIDE)
+   3. 3D CANVAS - ENSURE VISIBILITY
    ========================================= */
 .three-canvas {
     position: fixed;
@@ -155,7 +215,9 @@ body::before {
     width: 50vw;
     height: 100vh;
     z-index: 1;
-    pointer-events: none; /* Allows clicking through to content if needed */
+    pointer-events: none;
+    opacity: 1 !important; /* Force visibility */
+    display: block !important; /* Force display */
 }
 
 /* =========================================
@@ -177,7 +239,7 @@ h1, h2, h3 {
 }
 
 .container {
-    max-width: 800px; /* Narrower since it's on the right side */
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 3rem;
 }
@@ -198,7 +260,7 @@ h1, h2, h3 {
 
 .section-title {
     font-size: 2.8rem;
-    color: var(--warm-white); /* White text for contrast against dark background */
+    color: var(--warm-white);
     margin-bottom: 1.5rem;
 }
 
@@ -215,7 +277,7 @@ h1, h2, h3 {
 .navbar {
     position: fixed;
     top: 1.5rem;
-    right: 2rem; /* Aligned to the right side */
+    right: 2rem;
     width: auto;
     max-width: 800px;
     z-index: 1000;
@@ -351,7 +413,7 @@ h1, h2, h3 {
 }
 
 .btn-primary {
-    background: rgba(212, 175, 55, 0.9); /* Gold accent */
+    background: rgba(212, 175, 55, 0.9);
     color: var(--deep-forest);
     border: 1px solid rgba(212, 175, 55, 1);
 }
@@ -400,7 +462,7 @@ h1, h2, h3 {
 .scroll-indicator {
     position: absolute;
     bottom: 2rem;
-    left: 55%; /* Shifted right to align with content */
+    left: 55%;
     transform: translateX(-50%);
     animation: bounce 2s infinite;
 }
@@ -439,10 +501,9 @@ h1, h2, h3 {
 }
 
 /* =========================================
-   9. Content Sections (Glassmorphism Cards)
+   9. Content Sections
    ========================================= */
 .about-section, .services-section, .gallery-section, .contact-section {
-    /* Transparent enough to see the lush background, but readable */
     background: rgba(24, 61, 43, 0.4);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -828,12 +889,12 @@ h1, h2, h3 {
         width: 100vw;
         height: 50vh;
         top: 0;
-        opacity: 0.4; /* Subtle on mobile */
+        opacity: 0.5;
     }
     
     .content-wrapper {
         margin-left: 0;
-        padding-top: 50vh; /* Push content below the 3D area */
+        padding-top: 50vh;
     }
     
     .hero {
