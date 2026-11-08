@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Premium event decoration services for weddings, engagements, birthdays, and special occasions. We transform ordinary spaces into extraordinary experiences.">
+    <meta name="description" content="Premium event decoration services for weddings, engagements, birthdays, and special occasions.">
     <title>Premium Event Decoration | We Decorate Your Occasions</title>
     
     <!-- Favicon -->
@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
-    <!-- Three.js for 3D -->
+    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <!-- Styles -->
@@ -38,6 +38,9 @@
         </div>
     </div>
 
+    <!-- 3D Canvas (Fixed Left Side) -->
+    <canvas id="three-canvas" class="three-canvas"></canvas>
+
     <!-- Navigation -->
     <nav id="navbar" class="navbar">
         <div class="nav-container">
@@ -57,149 +60,151 @@
         </div>
     </nav>
 
-    <!-- Hero Section with 3D -->
-    <section id="home" class="hero">
-        <canvas id="three-canvas" class="three-canvas"></canvas>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title fade-in-up">We Decorate Your Occasions</h1>
-            <p class="hero-subtitle fade-in-up delay-1">Transforming ordinary spaces into extraordinary, unforgettable experiences with elegance and creative vision.</p>
-            <div class="hero-buttons fade-in-up delay-2">
-                <a href="#gallery" class="btn btn-glass">Explore Our Work</a>
-                <a href="#contact" class="btn btn-glass btn-primary">Book Your Occasion</a>
+    <!-- Main Content Wrapper (Right Side) -->
+    <main class="content-wrapper">
+        
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title fade-in-up">We Decorate Your Occasions</h1>
+                <p class="hero-subtitle fade-in-up delay-1">Transforming ordinary spaces into extraordinary, unforgettable experiences with elegance and creative vision.</p>
+                <div class="hero-buttons fade-in-up delay-2">
+                    <a href="#gallery" class="btn btn-glass">Explore Our Work</a>
+                    <a href="#contact" class="btn btn-glass btn-primary">Book Your Occasion</a>
+                </div>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <span></span>
-        </div>
-    </section>
+            <div class="scroll-indicator">
+                <span></span>
+            </div>
+        </section>
 
-    <!-- About Us Section -->
-    <section id="about" class="section about-section">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image reveal">
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Elegant wedding table decoration" loading="lazy">
-                    <div class="image-frame"></div>
-                </div>
-                <div class="about-content reveal delay-1">
-                    <span class="section-tag">About Us</span>
-                    <h2 class="section-title">Crafting Unforgettable Moments</h2>
-                    <p class="section-text">We believe every occasion deserves to be unforgettable. Through thoughtful design, beautiful details, and creative vision, we transform ordinary spaces into extraordinary experiences.</p>
-                    <p class="section-text">From intimate celebrations to grand events, we bring your ideas to life with elegance and care. Our dedicated team specializes in curating bespoke environments that reflect your unique story, ensuring every detail is executed with flawless precision.</p>
-                    <a href="#services" class="btn btn-glass">Discover Our Services</a>
+        <!-- About Us Section -->
+        <section id="about" class="section about-section">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-image reveal">
+                        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000&auto=format&fit=crop" alt="Elegant wedding table decoration" loading="lazy">
+                        <div class="image-frame"></div>
+                    </div>
+                    <div class="about-content reveal delay-1">
+                        <span class="section-tag">About Us</span>
+                        <h2 class="section-title">Crafting Unforgettable Moments</h2>
+                        <p class="section-text">We believe every occasion deserves to be unforgettable. Through thoughtful design, beautiful details, and creative vision, we transform ordinary spaces into extraordinary experiences.</p>
+                        <p class="section-text">From intimate celebrations to grand events, we bring your ideas to life with elegance and care. Our dedicated team specializes in curating bespoke environments that reflect your unique story.</p>
+                        <a href="#services" class="btn btn-glass">Discover Our Services</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Services Section -->
-    <section id="services" class="section services-section">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">What We Do</span>
-                <h2 class="section-title">Our Premium Services</h2>
+        <!-- Services Section -->
+        <section id="services" class="section services-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">What We Do</span>
+                    <h2 class="section-title">Our Premium Services</h2>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card reveal delay-1" data-tilt>
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop" alt="Wedding Decoration" loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3>Weddings</h3>
+                            <p>Bespoke floral arrangements, elegant table settings, and atmospheric lighting for your perfect day.</p>
+                        </div>
+                    </div>
+                    <div class="service-card reveal delay-2" data-tilt>
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=800&auto=format&fit=crop" alt="Birthday Celebration" loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3>Birthdays & Anniversaries</h3>
+                            <p>Personalized themes and luxurious decor to make milestone celebrations truly memorable.</p>
+                        </div>
+                    </div>
+                    <div class="service-card reveal delay-3" data-tilt>
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=800&auto=format&fit=crop" alt="Graduation Ceremony" loading="lazy">
+                        </div>
+                        <div class="service-content">
+                            <h3>Graduations & Private Events</h3>
+                            <p>Sophisticated setups for corporate gatherings, engagements, and exclusive private parties.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="services-grid">
-                <div class="service-card reveal delay-1" data-tilt>
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Wedding Decoration" loading="lazy">
-                    </div>
-                    <div class="service-content">
-                        <h3>Weddings</h3>
-                        <p>Bespoke floral arrangements, elegant table settings, and atmospheric lighting for your perfect day.</p>
-                    </div>
-                </div>
-                <div class="service-card reveal delay-2" data-tilt>
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Birthday Celebration" loading="lazy">
-                    </div>
-                    <div class="service-content">
-                        <h3>Birthdays & Anniversaries</h3>
-                        <p>Personalized themes and luxurious decor to make milestone celebrations truly memorable.</p>
-                    </div>
-                </div>
-                <div class="service-card reveal delay-3" data-tilt>
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Graduation Ceremony" loading="lazy">
-                    </div>
-                    <div class="service-content">
-                        <h3>Graduations & Private Events</h3>
-                        <p>Sophisticated setups for corporate gatherings, engagements, and exclusive private parties.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="section gallery-section">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">Portfolio</span>
-                <h2 class="section-title">Our Recent Work</h2>
+        <!-- Gallery Section -->
+        <section id="gallery" class="section gallery-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Portfolio</span>
+                    <h2 class="section-title">Our Recent Work</h2>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item reveal" onclick="openLightbox(this)">
+                        <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop" alt="Luxury floral arrangement" loading="lazy">
+                        <div class="gallery-overlay"><span>View</span></div>
+                    </div>
+                    <div class="gallery-item reveal delay-1" onclick="openLightbox(this)">
+                        <img src="https://images.unsplash.com/photo-1507504031981-723e9edd3e66?q=80&w=800&auto=format&fit=crop" alt="Elegant table setting" loading="lazy">
+                        <div class="gallery-overlay"><span>View</span></div>
+                    </div>
+                    <div class="gallery-item reveal delay-2" onclick="openLightbox(this)">
+                        <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop" alt="Wedding arch decoration" loading="lazy">
+                        <div class="gallery-overlay"><span>View</span></div>
+                    </div>
+                    <div class="gallery-item reveal" onclick="openLightbox(this)">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" alt="Event lighting design" loading="lazy">
+                        <div class="gallery-overlay"><span>View</span></div>
+                    </div>
+                    <div class="gallery-item reveal delay-1" onclick="openLightbox(this)">
+                        <img src="https://images.unsplash.com/photo-1478146059778-26028b07395a?q=80&w=800&auto=format&fit=crop" alt="Outdoor event decor" loading="lazy">
+                        <div class="gallery-overlay"><span>View</span></div>
+                    </div>
+                    <div class="gallery-item reveal delay-2" onclick="openLightbox(this)">
+                        <img src="https://images.unsplash.com/photo-1505932794465-14a519b011d4?q=80&w=800&auto=format&fit=crop" alt="Intimate celebration setup" loading="lazy">
+                        <div class="gallery-overlay"><span>View</span></div>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item reveal" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Luxury floral arrangement" loading="lazy">
-                    <div class="gallery-overlay"><span>View</span></div>
-                </div>
-                <div class="gallery-item reveal delay-1" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1507504031981-723e9edd3e66?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Elegant table setting" loading="lazy">
-                    <div class="gallery-overlay"><span>View</span></div>
-                </div>
-                <div class="gallery-item reveal delay-2" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Wedding arch decoration" loading="lazy">
-                    <div class="gallery-overlay"><span>View</span></div>
-                </div>
-                <div class="gallery-item reveal" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Event lighting design" loading="lazy">
-                    <div class="gallery-overlay"><span>View</span></div>
-                </div>
-                <div class="gallery-item reveal delay-1" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1478146059778-26028b07395a?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Outdoor event decor" loading="lazy">
-                    <div class="gallery-overlay"><span>View</span></div>
-                </div>
-                <div class="gallery-item reveal delay-2" onclick="openLightbox(this)">
-                    <img src="https://images.unsplash.com/photo-1505932794465-14a519b011d4?q=80&w=800&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Intimate celebration setup" loading="lazy">
-                    <div class="gallery-overlay"><span>View</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
-        <div class="container">
-            <div class="contact-box reveal">
-                <span class="section-tag">Get In Touch</span>
-                <h2 class="section-title">Let's Create Something Beautiful</h2>
-                <p class="section-text">Ready to transform your next event? Contact us today to discuss your vision and receive a personalized consultation.</p>
-                <a href="mailto:contact@luxedecor.com" class="btn btn-glass btn-primary">Contact Us</a>
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <div class="contact-box reveal">
+                    <span class="section-tag">Get In Touch</span>
+                    <h2 class="section-title">Let's Create Something Beautiful</h2>
+                    <p class="section-text">Ready to transform your next event? Contact us today to discuss your vision and receive a personalized consultation.</p>
+                    <a href="mailto:contact@luxedecor.com" class="btn btn-glass btn-primary">Contact Us</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>LuxeDecor</h3>
-                    <p>Transforming spaces into extraordinary experiences with elegance and care.</p>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <h3>LuxeDecor</h3>
+                        <p>Transforming spaces into extraordinary experiences with elegance and care.</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#home">Home</a>
+                        <a href="#about">About</a>
+                        <a href="#services">Services</a>
+                        <a href="#gallery">Gallery</a>
+                    </div>
                 </div>
-                <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#services">Services</a>
-                    <a href="#gallery">Gallery</a>
+                <div class="footer-bottom">
+                    <p class="footer-text">Built by <a href="https://t.me/aben1el" target="_blank" rel="noopener noreferrer" class="nahom-link">Nahom</a></p>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p class="footer-text">Built by <a href="https://t.me/aben1el" target="_blank" rel="noopener noreferrer" class="nahom-link">Nahom</a></p>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </main>
 
     <!-- Lightbox Modal -->
     <div id="lightbox" class="lightbox" onclick="closeLightbox()">
