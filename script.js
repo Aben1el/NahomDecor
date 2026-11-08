@@ -7,17 +7,18 @@ window.addEventListener('load', () => {
         loader.classList.add('hidden');
         setTimeout(() => {
             loader.style.display = 'none';
-        }, 800);
-    }, 2000);
+        }, 1000);
+    }, 2500); // 2.5 seconds for nice animation
 });
 
+// Failsafe
 setTimeout(() => {
     const loader = document.getElementById('loader');
     if (loader && !loader.classList.contains('hidden')) {
         loader.classList.add('hidden');
-        setTimeout(() => { loader.style.display = 'none'; }, 800);
+        setTimeout(() => { loader.style.display = 'none'; }, 1000);
     }
-}, 3000);
+}, 4000);
 
 // =========================================
 // 2. Navigation Scroll Effect
@@ -142,7 +143,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // =========================================
-// 8. THREE.JS: LUXURY FLOATING CHAIR (LEFT SIDE)
+// 8. THREE.JS - VISIBLE 3D CHAIR
 // =========================================
 let scene, camera, renderer, chairGroup;
 let targetRotation = 0;
@@ -153,62 +154,74 @@ let animationFrameId;
 
 function init3DScene() {
     const canvas = document.getElementById('three-canvas');
-    if (!canvas) return;
+    if (!canvas) {
+        console.error('Canvas not found');
+        return;
+    }
+
+    console.log('Initializing 3D scene...');
 
     // Scene setup
     scene = new THREE.Scene();
-    // Transparent background to let CSS background show through
-    scene.background = null; 
+    scene.background = null;
     
-    // Camera setup
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    // Position camera to look at the left side
-    camera.position.set(0, 2, 6);
-    camera.lookAt(0, 1, 0);
+    // Camera setup - positioned to see the chair clearly
+    camera = new THREE.PerspectiveCamera(
+        45, 
+        (window.innerWidth * 0.5) / window.innerHeight, 
+        0.1, 
+        1000
+    );
+    camera.position.set(0, 2, 5); // Closer to see the chair
+    camera.lookAt(0, 1.5, 0);
 
     // Renderer setup
     renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         antialias: true,
-        alpha: true // Crucial for transparent background
+        alpha: true
     });
-    renderer.setSize(window.innerWidth * 0.5, window.innerHeight); // Match CSS width
+    renderer.setSize(window.innerWidth * 0.5, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputEncoding = THREE.sRGBEncoding;
 
-    // --- LIGHTING (Premium Studio Setup) ---
-    const ambientLight = new THREE.AmbientLight(0xFFFDF8, 0.6);
+    console.log('Renderer initialized');
+
+    // --- LIGHTING ---
+    const ambientLight = new THREE.AmbientLight(0xFFFDF8, 0.7);
     scene.add(ambientLight);
 
-    const mainLight = new THREE.DirectionalLight(0xFFFDF8, 1.2);
-    mainLight.position.set(5, 8, 5);
+    const mainLight = new THREE.DirectionalLight(0xFFFDF8, 1.5);
+    mainLight.position.set(3, 5, 3);
     mainLight.castShadow = true;
-    mainLight.shadow.mapSize.width = 1024;
-    mainLight.shadow.mapSize.height = 1024;
-    mainLight.shadow.bias = -0.0001;
+    mainLight.shadow.mapSize.width = 2048;
+    mainLight.shadow.mapSize.height = 2048;
     scene.add(mainLight);
 
-    const rimLight = new THREE.SpotLight(0xD4AF37, 1.5);
-    rimLight.position.set(-5, 5, -5);
-    rimLight.lookAt(0, 1, 0);
+    const rimLight = new THREE.SpotLight(0xD4AF37, 2);
+    rimLight.position.set(-3, 4, -3);
+    rimLight.lookAt(0, 1.5, 0);
     scene.add(rimLight);
 
-    const fillLight = new THREE.PointLight(0x536B42, 0.8, 10);
-    fillLight.position.set(-3, 2, 3);
+    const fillLight = new THREE.PointLight(0x536B42, 1, 10);
+    fillLight.position.set(-2, 2, 2);
     scene.add(fillLight);
 
-    // --- BUILD THE LUXURY CHAIR ---
+    console.log('Lighting setup complete');
+
+    // --- BUILD THE CHAIR ---
     chairGroup = new THREE.Group();
 
-    // Materials
+    // Materials - More visible colors
     const velvetMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0x8B6B4F, // Warm Mocha
+        color: 0x8B6B4F, // Warm Mocha - clearly visible
         metalness: 0.1,
         roughness: 0.85,
         sheen: 1.0,
         sheenColor: 0xFFFFFF,
-        clearcoat: 0.1,
+        clearcoat: 0.2,
         clearcoatRoughness: 0.5
     });
 
@@ -219,68 +232,83 @@ function init3DScene() {
         envMapIntensity: 1.0
     });
 
-    // 1. Chair Seat
-    const seatGeo = new THREE.BoxGeometry(1.2, 0.15, 1.2);
-    // Round the edges visually by using a slightly smaller top box or just rely on lighting
+    // 1. Chair Seat - larger and more visible
+    const seatGeo = new THREE.BoxGeometry(1.5, 0.2, 1.3);
     const seat = new THREE.Mesh(seatGeo, velvetMaterial);
-    seat.position.y = 1.0;
+    seat.position.y = 1.2;
     seat.castShadow = true;
     seat.receiveShadow = true;
     chairGroup.add(seat);
 
     // 2. Chair Backrest
-    const backGeo = new THREE.BoxGeometry(1.2, 1.4, 0.15);
+    const backGeo = new THREE.BoxGeometry(1.5, 1.5, 0.15);
     const back = new THREE.Mesh(backGeo, velvetMaterial);
-    back.position.set(0, 1.75, -0.525);
+    back.position.set(0, 2.0, -0.575);
     back.castShadow = true;
     back.receiveShadow = true;
     chairGroup.add(back);
 
-    // 3. Chair Legs (Elegant tapered cylinders)
+    // 3. Chair Legs
     const legPositions = [
-        [-0.5, 0.5, -0.5],
-        [0.5, 0.5, -0.5],
-        [-0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5]
+        [-0.65, 0.6, -0.55],
+        [0.65, 0.6, -0.55],
+        [-0.65, 0.6, 0.55],
+        [0.65, 0.6, 0.55]
     ];
 
     legPositions.forEach(pos => {
-        const legGeo = new THREE.CylinderGeometry(0.06, 0.04, 1.0, 16);
+        const legGeo = new THREE.CylinderGeometry(0.08, 0.06, 1.2, 16);
         const leg = new THREE.Mesh(legGeo, goldMaterial);
         leg.position.set(pos[0], pos[1], pos[2]);
         leg.castShadow = true;
         leg.receiveShadow = true;
         chairGroup.add(leg);
         
-        // Add a small gold cap at the bottom of each leg for luxury detail
-        const capGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.05, 16);
+        // Gold foot caps
+        const capGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.08, 16);
         const cap = new THREE.Mesh(capGeo, goldMaterial);
-        cap.position.set(pos[0], 0.025, pos[2]);
+        cap.position.set(pos[0], 0.04, pos[2]);
         chairGroup.add(cap);
     });
 
-    // 4. Subtle shadow plane beneath the chair
-    const shadowGeo = new THREE.CircleGeometry(1.5, 32);
-    const shadowMat = new THREE.MeshBasicMaterial({
-        color: 0x000000,
-        transparent: true,
-        opacity: 0.3
-    });
-    const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
-    shadowPlane.rotation.x = -Math.PI / 2;
-    shadowPlane.position.y = 0.05;
-    shadowPlane.receiveShadow = true;
-    chairGroup.add(shadowPlane);
+    // 4. Armrests
+    const armrestGeo = new THREE.BoxGeometry(0.15, 0.15, 1.0);
+    const leftArmrest = new THREE.Mesh(armrestGeo, velvetMaterial);
+    leftArmrest.position.set(-0.825, 1.3, 0);
+    leftArmrest.castShadow = true;
+    chairGroup.add(leftArmrest);
 
-    // Initial Position (Left side, floating)
-    chairGroup.position.set(0, 1.5, 0);
+    const rightArmrest = new THREE.Mesh(armrestGeo, velvetMaterial);
+    rightArmrest.position.set(0.825, 1.3, 0);
+    rightArmrest.castShadow = true;
+    chairGroup.add(rightArmrest);
+
+    // 5. Decorative cushion on seat
+    const cushionGeo = new THREE.BoxGeometry(1.3, 0.1, 1.1);
+    const cushionMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0xD4AF37, // Gold cushion for contrast
+        metalness: 0.2,
+        roughness: 0.7,
+        sheen: 0.8
+    });
+    const cushion = new THREE.Mesh(cush cushionGeo, cushionMaterial);
+    cushion.position.y = 1.31;
+    cushion.castShadow = true;
+    chairGroup.add(cushion);
+
+    // Position chair in center of canvas view
+    chairGroup.position.set(0, 0, 0);
     scene.add(chairGroup);
+
+    console.log('Chair created and added to scene');
 
     // Handle window resize
     window.addEventListener('resize', onWindowResize);
 
     // Start animation loop
     animate();
+    
+    console.log('3D scene initialization complete');
 }
 
 function onWindowResize() {
@@ -298,61 +326,69 @@ function animate() {
     animationFrameId = requestAnimationFrame(animate);
 
     if (chairGroup) {
-        // 1. Smooth floating animation (independent of scroll)
-        const floatY = Math.sin(Date.now() * 0.0015) * 0.1;
+        // Smooth floating animation
+        const floatY = Math.sin(Date.now() * 0.001) * 0.05;
         
-        // 2. Scroll-driven interpolation (Lerp for smoothness)
-        // Lerp factor: 0.05 gives a heavy, luxurious, smooth follow effect
+        // Smooth interpolation for scroll-based movement
         currentRotation += (targetRotation - currentRotation) * 0.05;
         currentY += (targetY - currentY) * 0.05;
 
         // Apply transformations
         chairGroup.rotation.y = currentRotation;
-        chairGroup.position.y = 1.5 + currentY + floatY;
+        chairGroup.position.y = currentY + floatY;
         
-        // Subtle tilt based on scroll for extra dynamism
-        chairGroup.rotation.x = currentY * 0.1; 
-        chairGroup.rotation.z = Math.sin(Date.now() * 0.001) * 0.02;
+        // Subtle tilt
+        chairGroup.rotation.x = Math.sin(Date.now() * 0.0005) * 0.05;
+        chairGroup.rotation.z = currentY * 0.05;
     }
 
     renderer.render(scene, camera);
 }
 
-// Scroll-driven animation logic
+// Scroll-driven animation
 function updateScrollAnimation() {
     const maxScroll = document.body.scrollHeight - window.innerHeight;
     const scrollFraction = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
     
-    // Chair rotates 270 degrees (1.5 PI) over the course of the entire page scroll
-    targetRotation = scrollFraction * (Math.PI * 1.5);
+    // Chair rotates 360 degrees (2 PI) over the entire page
+    targetRotation = scrollFraction * (Math.PI * 2);
     
-    // Chair moves down slightly (parallax follow effect) then settles
-    // Starts at 0, goes down to -0.5, creating a "following" sensation
-    targetY = - (scrollFraction * 0.8);
+    // Chair moves down slightly
+    targetY = - (scrollFraction * 1.5);
 }
 
 window.addEventListener('scroll', updateScrollAnimation, { passive: true });
 
 // =========================================
-// 9. Initialize 3D Scene
+// 9. Initialize 3D Scene with Error Handling
 // =========================================
+function checkWebGL() {
+    try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) {
+            throw new Error('WebGL not supported');
+        }
+        return true;
+    } catch (e) {
+        console.error('WebGL check failed:', e);
+        const fallback = document.getElementById('webgl-fallback');
+        if (fallback) fallback.style.display = 'block';
+        return false;
+    }
+}
+
 if (typeof THREE !== 'undefined') {
-    function isWebGLAvailable() {
-        try {
-            const canvas = document.createElement('canvas');
-            return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-        } catch (e) {
-            return false;
+    if (checkWebGL()) {
+        // Wait for DOM to be fully ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init3DScene);
+        } else {
+            init3DScene();
         }
     }
-    
-    if (isWebGLAvailable()) {
-        init3DScene();
-        updateScrollAnimation(); // Set initial state
-    } else {
-        const canvas = document.getElementById('three-canvas');
-        if (canvas) canvas.style.display = 'none';
-    }
+} else {
+    console.error('Three.js not loaded');
 }
 
 window.addEventListener('beforeunload', () => {
